@@ -12,9 +12,9 @@
             </div>
           </div>
           <div class="price" :class="{'highlight':totalPrice>0}">￥{{totalPrice}}</div>
-          <div class="desc">另需配送费￥{{deliveryPrice}}元</div>
+          <!-- <div class="desc">另需配送费￥{{deliveryPrice}}元</div> -->
         </div>
-        <div class="content-right">
+        <div class="content-right" @click="pay">
           <div class="pay" :class="payClass">
             {{payDesc}}
           </div>
@@ -53,6 +53,12 @@
   export default {
     name: 'shop-cart',
     props: {
+      rid: {
+        type: String,
+        default() {
+          return '101'
+        }
+      },
       selectFoods: {
         type: Array,
         default() {
@@ -67,20 +73,23 @@
         type: Number,
         default: 0
       },
-      // sticky: {
-      //   type: Boolean,
-      //   default: false
-      // },
-      // fold: {
-      //   type: Boolean,
-      //   default: true
-      // }
+      sticky: {
+        type: Boolean,
+        default: false
+      },
+      fold: {
+        type: Boolean,
+        default: true
+      }
     },
     data() {
       return {
         balls: createBalls(),
         listFold: this.fold
       }
+    },
+    created() {
+      this.dropBalls = []
     },
     computed: {
       totalPrice() {
@@ -98,31 +107,55 @@
         return count
       },
       payDesc() {
-        if (this.totalPrice === 0) {
-          return `￥${this.minPrice}元起送`
-        } else if (this.totalPrice < this.minPrice) {
-          let diff = this.minPrice - this.totalPrice
-          return `还差￥${diff}元起送`
-        } else {
-          return '去结算'
-        }
+        return '确认订单'
       },
       payClass() {
-        if (!this.totalCount || this.totalPrice < this.minPrice) {
+        if (!this.totalCount || this.totalPrice < 0) {
           return 'not-enough'
         } else {
           return 'enough'
         }
       }
     },
-    created() {
-      this.dropBalls = []
-      this.listFold = true
-    },
     methods: {
+      toggleList() {
+        if (this.listFold) {
+          if (!this.totalCount) {
+            return
+          }
+          this.listFold = false
+          this._showShopCartList()
+          this._showShopCartSticky()
+        } else {
+          this.listFold = true
+          this._hideShopCartList()
+        }
+      },
+      pay(e) {
+        if (this.totalPrice <= 0) {
+          return
+        }
+        this.$createDialog({
+          type: 'confirm',
+          content: `您的订单共计${this.totalPrice}元，确认下单？`,
+          $events: {
+            confirm: () => {
+              this.selectFoods.forEach((food) => {
+                food.count = 0
+              })
+              this.$createDialog({
+                title: `${this.rid}房间下单成功！`,
+                content: '菜品会尽快为您送达，祝您用餐愉快！'
+              }).show()
+              e.stopPropagation()
+            }
+          }
+        }).show()
+        e.stopPropagation()
+      },
       drop(el) {
-        for (let i = 0; i < this.balls.length; i += 1) {
-          const ball = this.balls[i];
+        for (let i = 0; i < this.balls.length; i++) {
+          const ball = this.balls[i]
           if (!ball.show) {
             ball.show = true
             ball.el = el
@@ -155,150 +188,55 @@
           el.style.display = 'none'
         }
       },
-      toggleList() {
-        if(this.listFold) {
-          if(!this.totalCount) {
-            return
-          }
-          this.listFold = false
-          this._showShopCartList()
-        }
-        else {
-          this.listFold = true
-          this._hideShopCartList()
-        }
-      },
       _showShopCartList() {
         this.shopCartListComp = this.shopCartListComp || this.$createShopCartList({
           $props: {
             selectFoods: 'selectFoods'
           },
           $events: {
-            // leave: () => {
-            //   this._hideShopCartSticky()
-            // },
+            leave: () => {
+              this._hideShopCartSticky()
+            },
             hide: () => {
               this.listFold = true
             },
             add: (el) => {
-              // this.shopCartStickyComp.drop(el)
+              this.shopCartStickyComp.drop(el)
             }
           }
         })
         this.shopCartListComp.show()
       },
+      _showShopCartSticky() {
+        this.shopCartStickyComp = this.shopCartStickyComp || this.$createShopCartSticky({
+          $props: {
+            selectFoods: 'selectFoods',
+            // deliveryPrice: 'deliveryPrice',
+            minPrice: 'minPrice',
+            fold: 'listFold',
+            list: this.shopCartListComp
+          }
+        })
+        this.shopCartStickyComp.show()
+      },
       _hideShopCartList() {
-        this.shopCartListComp.hide()
+        const list = this.sticky ? this.$parent.list : this.shopCartListComp
+        list.hide && list.hide()
+      },
+      _hideShopCartSticky() {
+        this.shopCartStickyComp.hide()
       }
     },
-    // methods: {
-    //   toggleList() {
-    //     if (this.listFold) {
-    //       if (!this.totalCount) {
-    //         return
-    //       }
-    //       this.listFold = false
-    //       this._showShopCartList()
-    //       this._showShopCartSticky()
-    //     } else {
-    //       this.listFold = true
-    //       this._hideShopCartList()
-    //     }
-    //   },
-    //   pay(e) {
-    //     if (this.totalPrice < this.minPrice) {
-    //       return
-    //     }
-    //     this.$createDialog({
-    //       title: '支付',
-    //       content: `您需要支付${this.totalPrice}元`
-    //     }).show()
-    //     e.stopPropagation()
-    //   },
-    //   drop(el) {
-    //     for (let i = 0; i < this.balls.length; i++) {
-    //       const ball = this.balls[i]
-    //       if (!ball.show) {
-    //         ball.show = true
-    //         ball.el = el
-    //         this.dropBalls.push(ball)
-    //         return
-    //       }
-    //     }
-    //   },
-    //   beforeDrop(el) {
-    //     const ball = this.dropBalls[this.dropBalls.length - 1]
-    //     const rect = ball.el.getBoundingClientRect()
-    //     const x = rect.left - 32
-    //     const y = -(window.innerHeight - rect.top - 22)
-    //     el.style.display = ''
-    //     el.style.transform = el.style.webkitTransform = `translate3d(0,${y}px,0)`
-    //     const inner = el.getElementsByClassName(innerClsHook)[0]
-    //     inner.style.transform = inner.style.webkitTransform = `translate3d(${x}px,0,0)`
-    //   },
-    //   dropping(el, done) {
-    //     this._reflow = document.body.offsetHeight
-    //     el.style.transform = el.style.webkitTransform = `translate3d(0,0,0)`
-    //     const inner = el.getElementsByClassName(innerClsHook)[0]
-    //     inner.style.transform = inner.style.webkitTransform = `translate3d(0,0,0)`
-    //     el.addEventListener('transitionend', done)
-    //   },
-    //   afterDrop(el) {
-    //     const ball = this.dropBalls.shift()
-    //     if (ball) {
-    //       ball.show = false
-    //       el.style.display = 'none'
-    //     }
-    //   },
-    //   _showShopCartList() {
-    //     this.shopCartListComp = this.shopCartListComp || this.$createShopCartList({
-    //       $props: {
-    //         selectFoods: 'selectFoods'
-    //       },
-    //       $events: {
-    //         leave: () => {
-    //           this._hideShopCartSticky()
-    //         },
-    //         hide: () => {
-    //           this.listFold = true
-    //         },
-    //         add: (el) => {
-    //           this.shopCartStickyComp.drop(el)
-    //         }
-    //       }
-    //     })
-    //     this.shopCartListComp.show()
-    //   },
-    //   _showShopCartSticky() {
-    //     this.shopCartStickyComp = this.shopCartStickyComp || this.$createShopCartSticky({
-    //       $props: {
-    //         selectFoods: 'selectFoods',
-    //         deliveryPrice: 'deliveryPrice',
-    //         minPrice: 'minPrice',
-    //         fold: 'listFold',
-    //         list: this.shopCartListComp
-    //       }
-    //     })
-    //     this.shopCartStickyComp.show()
-    //   },
-    //   _hideShopCartList() {
-    //     const list = this.sticky ? this.$parent.list : this.shopCartListComp
-    //     list.hide && list.hide()
-    //   },
-    //   _hideShopCartSticky() {
-    //     this.shopCartStickyComp.hide()
-    //   }
-    // },
-    // watch: {
-    //   fold(newVal) {
-    //     this.listFold = newVal
-    //   },
-    //   totalCount(count) {
-    //     if (!this.fold && count === 0) {
-    //       this._hideShopCartList()
-    //     }
-    //   }
-    // },
+    watch: {
+      fold(newVal) {
+        this.listFold = newVal
+      },
+      totalCount(count) {
+        if (!this.fold && count === 0) {
+          this._hideShopCartList()
+        }
+      }
+    },
     components: {
       Bubble
     }
@@ -355,7 +293,6 @@
           line-height: 24px
           padding-right: 12px
           box-sizing: border-box
-          border-right: 1px solid rgba(255, 255, 255, 0.1)
           font-weight: 700
           font-size: $fontsize-large
           &.highlight

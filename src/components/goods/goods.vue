@@ -77,7 +77,8 @@
         ref="shopCart"
         :select-foods="selectFoods"
         :delivery-price="seller.deliveryPrice"
-        :min-price="seller.minPrice">
+        :min-price="seller.minPrice"
+      >
       </shop-cart>
     </div>
   </div>

@@ -2,20 +2,24 @@
   <div class="cartcontrol">
     <transition name="move">
       <div class="cart-decrease" v-show="food.count>0" @click.stop="decrease">
-        <span class="inner icon-remove_circle_outline"></span>
+        <span class="inner">
+          <Minus />
+        </span>
       </div>
     </transition>
     <div class="cart-count" v-show="food.count>0">
       {{food.count}}
     </div>
-    <div class="cart-add icon-add_circle" @click.stop="add">
-
+    <div class="cart-add" @click.stop="add">
+      <Plus />
     </div>
   </div>
 </template>
 
 <script>
 const EVENT_ADD = 'add'
+import Plus from '../../common/icon/plus.svg'
+import Minus from '../../common/icon/minus.svg'
 export default {
   name: 'cart-control',
   props: {
@@ -38,6 +42,10 @@ export default {
         this.food.count -= 1
       }
     }
+  },
+  components: {
+    Plus,
+    Minus
   }
 }
 </script>

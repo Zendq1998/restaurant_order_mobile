@@ -14,7 +14,7 @@
       >
         <div v-show="visible">
           <div class="list-header">
-            <h1 class="title">购物车</h1>
+            <h1 class="title">餐车</h1>
             <span class="empty" @click="empty">清空</span>
           </div>
           <cube-scroll class="list-content" ref="listContent">
@@ -79,7 +79,7 @@
       empty() {
         this.dialogComp = this.$createDialog({
           type: 'confirm',
-          content: '清空购物车？',
+          content: '清空餐车？',
           $events: {
             confirm: () => {
               this.selectFoods.forEach((food) => {
@@ -139,7 +139,7 @@
           color: $color-dark-grey
         .price
           position: absolute
-          right: 90px
+          right: 120px
           bottom: 12px
           line-height: 24px
           font-weight: 700
@@ -148,6 +148,6 @@
         .cart-control-wrapper
           position: absolute
           right: 0
-          bottom: 6px
+          bottom: 0
 
 </style>

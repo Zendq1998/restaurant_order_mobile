@@ -3,6 +3,7 @@ const appData = require('./data.json')
 const seller = appData.seller
 const goods = appData.goods
 const ratings = appData.ratings
+const rooms = appData.rooms
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -45,6 +46,12 @@ module.exports = {
           data: ratings
         })
       })
+      app.get('/api/rooms', function (req, res) {
+        res.json({
+          errno: 0,
+          data: rooms
+        })
+      })
     }
   },
   chainWebpack(config) {
@@ -52,5 +59,10 @@ module.exports = {
       .set('components', resolve('src/components'))
       .set('common', resolve('src/common'))
       .set('api', resolve('src/api'))
+      const svgRule = config.module.rule('svg')
+    svgRule.uses.clear()
+    svgRule
+      .use('vue-svg-loader')
+      .loader('vue-svg-loader')
   }
 }

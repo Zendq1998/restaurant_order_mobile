@@ -1,7 +1,7 @@
 {
   "seller": {
-    "name": "粥品香坊（回龙观）",
-    "description": "蜂鸟专送",
+    "name": "唐宴酒店",
+    "description": "珞狮南路延长线文化大道汤逊湖大桥前行200米",
     "deliveryTime": 38,
     "score": 4.2,
     "serviceScore": 4.1,
@@ -11,7 +11,7 @@
     "deliveryPrice": 4,
     "ratingCount": 24,
     "sellCount": 90,
-    "bulletin": "粥品香坊其烹饪粥料的秘方源于中国千年古法，在融和现代制作工艺，由世界烹饪大师屈浩先生领衔研发。坚守纯天然、0添加的良心品质深得消费者青睐，发展至今成为粥类的引领品牌。是2008年奥运会和2013年园博会指定餐饮服务商。",
+    "bulletin": "开业大酬宾！本店办理会员年卡限时仅需200元，会员顾客本店消费满100减21，多买多送！",
     "supports": [
       {
         "type": 0,
@@ -34,7 +34,7 @@
         "description": "已加入“外卖保”计划,食品安全保障"
       }
     ],
-    "avatar": "http://static.galileo.xiaojukeji.com/static/tms/seller_avatar_256px.jpg",
+    "avatar": "https://ws1.sinaimg.cn/large/006GC8NZgy1fxb7aav6a9j30e00geq41.jpg",
     "pics": [
       "http://fuss10.elemecdn.com/8/71/c5cf5715740998d5040dda6e66abfjpeg.jpeg?imageView2/1/w/180/h/180",
       "http://fuss10.elemecdn.com/b/6c/75bd250e5ba69868f3b1178afbda3jpeg.jpeg?imageView2/1/w/180/h/180",
@@ -1374,6 +1374,220 @@
       "text": "",
       "avatar": "http://static.galileo.xiaojukeji.com/static/tms/default_header.png",
       "recommend": []
+    }
+  ],
+  "rooms": [
+    {
+      "floor": 1,
+      "room": [
+        {
+          "rid": 101,
+          "status": 0
+        },
+        {
+          "rid": 102,
+          "status": 0
+        },
+        {
+          "rid": 103,
+          "status": 1
+        },
+        {
+          "rid": 104,
+          "status": 0
+        },
+        {
+          "rid": 105,
+          "status": 0
+        },
+        {
+          "rid": 106,
+          "status": 0
+        },
+        {
+          "rid": 107,
+          "status": 0
+        },
+        {
+          "rid": 108,
+          "status": 0
+        },
+        {
+          "rid": 109,
+          "status": 0
+        },
+        {
+          "rid": 110,
+          "status": 0
+        },
+        {
+          "rid": 111,
+          "status": 0
+        },
+        {
+          "rid": 112,
+          "status": 0
+        }
+      ]
+    },
+    {
+      "floor": 2,
+      "room": [
+        {
+          "rid": 201,
+          "status": 0
+        },
+        {
+          "rid": 202,
+          "status": 0
+        },
+        {
+          "rid": 203,
+          "status": 1
+        },
+        {
+          "rid": 204,
+          "status": 0
+        },
+        {
+          "rid": 205,
+          "status": 0
+        },
+        {
+          "rid": 206,
+          "status": 0
+        },
+        {
+          "rid": 207,
+          "status": 0
+        },
+        {
+          "rid": 208,
+          "status": 0
+        },
+        {
+          "rid": 209,
+          "status": 0
+        },
+        {
+          "rid": 210,
+          "status": 0
+        },
+        {
+          "rid": 211,
+          "status": 0
+        },
+        {
+          "rid": 212,
+          "status": 0
+        }
+      ]
+    },
+    {
+      "floor": 3,
+      "room": [
+        {
+          "rid": 301,
+          "status": 0
+        },
+        {
+          "rid": 302,
+          "status": 0
+        },
+        {
+          "rid": 303,
+          "status": 1
+        },
+        {
+          "rid": 304,
+          "status": 0
+        },
+        {
+          "rid": 305,
+          "status": 0
+        },
+        {
+          "rid": 306,
+          "status": 0
+        },
+        {
+          "rid": 307,
+          "status": 0
+        },
+        {
+          "rid": 308,
+          "status": 0
+        },
+        {
+          "rid": 309,
+          "status": 0
+        },
+        {
+          "rid": 310,
+          "status": 0
+        },
+        {
+          "rid": 311,
+          "status": 0
+        },
+        {
+          "rid": 312,
+          "status": 0
+        }
+      ]
+    },
+    {
+      "floor": 4,
+      "room": [
+        {
+          "rid": 401,
+          "status": 0
+        },
+        {
+          "rid": 402,
+          "status": 0
+        },
+        {
+          "rid": 403,
+          "status": 1
+        },
+        {
+          "rid": 404,
+          "status": 0
+        },
+        {
+          "rid": 405,
+          "status": 0
+        },
+        {
+          "rid": 406,
+          "status": 0
+        },
+        {
+          "rid": 407,
+          "status": 0
+        },
+        {
+          "rid": 408,
+          "status": 0
+        },
+        {
+          "rid": 409,
+          "status": 0
+        },
+        {
+          "rid": 410,
+          "status": 0
+        },
+        {
+          "rid": 411,
+          "status": 0
+        },
+        {
+          "rid": 412,
+          "status": 0
+        }
+      ]
     }
   ]
 }

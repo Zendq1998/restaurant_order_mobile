@@ -4,20 +4,28 @@
       <div class="detail-wrapper clear-fix">
         <div class="detail-main">
           <h1 class="name">{{seller.name}}</h1>
-          <div class="star-wrapper">
-            <star :size="48" :score="seller.score"></star>
-          </div>
           <div class="title">
+            <div class="line"></div>
+            <div class="text">房间号</div>
+            <div class="line"></div>
+          </div>
+          <div class="bulletin">
+            <p class="content rid">{{rid}}</p>
+          </div>
+          <!-- <div class="star-wrapper">
+            <star :size="48" :score="seller.score"></star>
+          </div> -->
+          <!-- <div class="title">
             <div class="line"></div>
             <div class="text">优惠信息</div>
             <div class="line"></div>
-          </div>
-          <ul v-if="seller.supports" class="supports">
+          </div> -->
+          <!-- <ul v-if="seller.supports" class="supports">
             <li class="support-item" v-for="(item,index) in seller.supports" :key="item.id">
               <support-ico :size=2 :type="seller.supports[index].type"></support-ico>
               <span class="text">{{seller.supports[index].description}}</span>
             </li>
-          </ul>
+          </ul> -->
           <div class="title">
             <div class="line"></div>
             <div class="text">商家公告</div>
@@ -29,25 +37,31 @@
         </div>
       </div>
       <div class="detail-close" @click="hide">
-        <i class="icon-close"></i>
+        <span>X</span>
       </div>
     </div>
   </transition>
 </template>
 
 <script>
-  // import popupMixin from 'common/mixins/popup'
   import Star from 'components/star/star'
   import SupportIco from 'components/support-ico/support-ico'
+  import popupMixin from 'common/mixins/popup'
 
   export default {
     name: 'header-detail',
-    // mixins: [popupMixin],
+    mixins: [popupMixin],
     props: {
       seller: {
         type: Object,
         default() {
           return {}
+        }
+      },
+      rid: {
+        type: String,
+        default() {
+          return '101'
         }
       }
     },
@@ -57,12 +71,12 @@
       }
     },
     methods: {
-      show() {
-        this.visible = true
-      },
-      hide() {
-        this.visible = false
-      }
+      // show() {
+      //   this.visible = true
+      // },
+      // hide() {
+      //   this.visible = false
+      // }
     },
     components: {
       SupportIco,
@@ -97,7 +111,7 @@
       width: 100%
       min-height: 100%
       .detail-main
-        margin-top: 64px
+        margin-top: 164px
         padding-bottom: 64px
         .name
           line-height: 16px
@@ -144,6 +158,10 @@
             padding: 0 12px
             line-height: 24px
             font-size: $fontsize-small
+          .rid
+            color: $color-orange
+            text-align: center;
+            font-size: $fontsize-large
     .detail-close
       position: relative
       width: 30px

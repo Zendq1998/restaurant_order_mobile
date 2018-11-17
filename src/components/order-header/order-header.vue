@@ -6,25 +6,20 @@
       </div>
       <div class="content">
         <div class="title">
-          <span class="brand"></span>
           <span class="name">{{seller.name}}</span>
         </div>
-        <div class="description">
-          房间号：208
+        <div class="description-local">
+          {{seller.description}}
         </div>
-        <!-- <div v-if="seller.supports" class="support">
-          <support-ico :size=1 :type="seller.supports[0].type"></support-ico>
-          <span class="text">{{seller.supports[0].description}}</span>
-        </div> -->
+        <div class="description">
+          房间号：
+          <span class="rid">{{rid}}</span>
+        </div>
       </div>
-      <!-- <div v-if="seller.supports" class="support-count">
-        <span class="count">{{seller.supports.length}}个</span>
-        <i class="icon-keyboard_arrow_right"></i>
-      </div> -->
     </div>
     <div class="bulletin-wrapper">
       <span class="bulletin-title"></span><span class="bulletin-text">{{seller.bulletin}}</span>
-      <i class="icon-keyboard_arrow_right"></i>
+      >
     </div>
     <div class="background">
       <img :src="seller.avatar" width="100%" height="100%">
@@ -36,12 +31,18 @@
   import SupportIco from 'components/support-ico/support-ico'
 
   export default {
-    name: 'v-header',
+    name: 'order-header',
     props: {
       seller: {
         type: Object,
         default() {
           return {}
+        }
+      },
+      rid: {
+        type: String,
+        default() {
+          return "101"
         }
       }
     },
@@ -49,7 +50,8 @@
       showDetail() {
         this.headerDetailComp = this.headerDetailComp || this.$createHeaderDetail({
           $props: {
-            seller: 'seller'
+            seller: 'seller',
+            rid: 'rid'
           }
         })
         this.headerDetailComp.show()
@@ -93,14 +95,14 @@
             bg-image('brand')
             background-size: 30px 18px
             background-repeat: no-repeat
-          .name
-            margin-left: 6px
-            font-size: $fontsize-large
-            font-weight: bold
+        .description-local
+          font-size: $fontsize-small-s
         .description
-          margin-bottom: 8px
+          margin: 4px 0
           line-height: 12px
           font-size: $fontsize-small
+          .rid
+            color: $color-orange
         .support
           display: flex
           align-items: center
