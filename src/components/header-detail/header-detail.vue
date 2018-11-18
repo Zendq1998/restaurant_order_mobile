@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="detail-close" @click="hide">
-        <span>✖</span>
+        <Cha />
       </div>
     </div>
   </transition>
@@ -49,6 +49,7 @@
   import Star from 'components/star/star'
   import SupportIco from 'components/support-ico/support-ico'
   import popupMixin from 'common/mixins/popup'
+  import Cha from 'common/icon/cha.svg'
 
   export default {
     name: 'header-detail',
@@ -82,7 +83,8 @@
     },
     components: {
       SupportIco,
-      Star
+      Star,
+      Cha
     }
   }
 </script>

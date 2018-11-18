@@ -1,16 +1,21 @@
 <template>
   <div class="goback" @click="goBack">
-    <img height="16px" width="16px" src="../../common/icon/back.png" >
+    <!-- <img height="16px" width="16px" src="../../common/icon/back.png" > -->
+    <Back />
   </div>
 </template>
 
 <script>
+import Back from 'common/icon/back.svg'
 export default {
   name: 'go-back',
   methods: {
     goBack() {
       window.history.back()
     }
+  },
+  components: {
+    Back
   }
 }
 </script>
@@ -19,7 +24,7 @@ export default {
 <style lang="stylus" scoped>
   .goback
     position: fixed
-    top: 7px
-    left: 7px
+    top: 0
+    left: 12px
     z-index 90
 </style>

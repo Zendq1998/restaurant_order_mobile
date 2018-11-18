@@ -11,7 +11,7 @@
       <div class="middle">
         选择包间
       </div>
-      <div @click="test" class="right">
+      <div @click="toLogin" class="right">
         <div class="my-icon">
           <Server class="my-icon-right" />
           <div class="rid">{{logged ? `ID:${sid}` : 'Login'}}</div>

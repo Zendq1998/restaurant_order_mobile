@@ -93,7 +93,19 @@ export default {
     },
     toOrder(rid) {
       if (this.sid) {
-        window.location = `/order/${this.sid}/${rid}`
+        this.dialog = this.$createDialog({
+          type: 'prompt',
+          title: '身份认证',
+          prompt: {
+            value: '',
+            placeholder: '请输入房间密码'
+          },
+          onConfirm: (e, promptValue) => {
+            if (promptValue) {
+              window.location = `/order/${rid}/${this.sid}`
+            }
+          }
+        }).show()
       }
       else {
         this.$createDialog({
@@ -147,35 +159,26 @@ export default {
             top: 0
             left: 0
             bottom: 0
-          >>> .cube-sticky-fixed
-            border-right: 1px solid $color-background-ssss
-          >>> .cube-scroll-wrapper
-            background: $color-white
-            width: 100%
-          >>> .cube-scroll-nav-bar
-            width: 80px
-            white-space: normal
-            overflow: hidden
-          >>> .cube-scroll-nav-bar-item
-            padding: 0 10px
-            display: flex
-            align-items: center
-            justify-content: center
-            height: 86px
-            line-height: 14px
-            font-size: $fontsize-small
-            background: $color-white
-            border-bottom: 1px solid $color-col-line
+            // >>> .cube-scroll-content
+            //   height: 50%
+          // >>> .cube-sticky-fixed
+          //   border-right: 1px solid $color-background-ssss
+          //   display: block
+          // >>> .cube-scroll-nav-bar
+          //   width: 80px
+          //   white-space: normal
+          //   overflow: hidden
           >>> .cube-scroll-nav-bar-item_active
             background: $color-orange
             color: $color-white
-          >>> .cube-sticky-ele
-            height: 1px
+            border-right: 2px solid $color-col-line
+          // >>> .cube-sticky-ele
+          //   height: 1px
           >>> .cube-scroll-nav-panel-title
             padding-left: 14px
             height: 32px
             line-height: 32px
-            border-left: 2px solid $color-col-line
+            border-right : 2px solid $color-col-line
             font-size: $fontsize-small
             color: $color-orange
             background: $color-white
