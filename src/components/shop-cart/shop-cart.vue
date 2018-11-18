@@ -5,7 +5,8 @@
         <div class="content-left">
           <div class="logo-wrapper">
             <div class="logo" :class="{'highlight':totalCount>0}">
-              <i class="icon-shopping_cart" :class="{'highlight':totalCount>0}"></i>
+              <ShopCartLogo />
+              <!-- <i class="icon-shopping_cart" :class="{'highlight':totalCount>0}"></i> -->
             </div>
             <div class="num" v-show="totalCount>0">
               <bubble :num="totalCount"></bubble>
@@ -38,6 +39,8 @@
 
 <script>
   import Bubble from 'components/bubble/bubble'
+
+  import ShopCartLogo from '../../common/icon/shopcart.svg' 
 
   const BALL_LEN = 10
   const innerClsHook = 'inner-hook'
@@ -238,7 +241,8 @@
       }
     },
     components: {
-      Bubble
+      Bubble,
+      ShopCartLogo
     }
   }
 </script>
@@ -275,7 +279,7 @@
             text-align: center
             background: $color-dark-grey
             &.highlight
-              background: $color-blue
+              background: $color-orange
             .icon-shopping_cart
               line-height: 44px
               font-size: $fontsize-large-xxx
@@ -328,6 +332,6 @@
           width: 16px
           height: 16px
           border-radius: 50%
-          background: $color-blue
+          background: $color-orange
           transition: all 0.4s linear
 </style>

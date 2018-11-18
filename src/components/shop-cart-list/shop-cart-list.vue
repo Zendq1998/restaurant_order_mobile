@@ -122,7 +122,7 @@
       .empty
         float: right
         font-size: $fontsize-small
-        color: $color-blue
+        color: $color-orange
 
     .list-content
       padding: 0 18px

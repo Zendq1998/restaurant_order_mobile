@@ -27,7 +27,7 @@ export default new VueRouter({
     // },
     {
       name: 'index',
-      path: '/order/:id',
+      path: '/order/:sid/:id',
       component: Index
     },
     {

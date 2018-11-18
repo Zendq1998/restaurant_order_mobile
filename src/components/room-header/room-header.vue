@@ -1,26 +1,68 @@
 <template>
-  <div class="header">
+  <div class="room-header">
     <div class="content-wrapper">
-      <p v-if="!login">
-        hi, <span class="to-login" @click="toLogin">请登录～</span>
-      </p>
+      <div class="my-icon">
+        <div @click="logout" v-if="logged">
+          <Logout />
+          <div class="rid">Logout</div>
+        </div>
+        <div v-else class="left"></div>
+      </div>
+      <div class="middle">
+        选择包间
+      </div>
+      <div @click="test" class="right">
+        <div class="my-icon">
+          <Server class="my-icon-right" />
+          <div class="rid">{{logged ? `ID:${sid}` : 'Login'}}</div>
+        </div>
+      </div>
+      
     </div>
-    <p v-if="login" class="intro">请选择您所在的包间</p>
   </div>
 </template>
 
 <script>
+import Server from '../../common/icon/server.svg'
+import Logout from '../../common/icon/logout.svg'
+const EVENT_LOGOUT = 'logout'
 export default {
   name: 'room-header',
+  props: {
+    logged: {
+      type: Boolean,
+      default() {
+        return false
+      }
+    },
+    sid: {
+      type: String,
+      default() {
+        return ''
+      }
+    }
+  },
   data() {
     return {
       login: false
     }
   },
   methods: {
-    toLogin() {
+    test() {
       window.location = '/login'
+    },
+    toLogin() {
+      if (!this.logged) {
+        window.location = '/login'
+      }
+    },
+    logout() {
+      this.$emit(EVENT_LOGOUT)
     }
+  },
+  components: {
+    Server,
+    Logout
   }
 }
 </script>
@@ -29,23 +71,46 @@ export default {
   @import "~common/stylus/mixin"
   @import "~common/stylus/variable"
 
-  .header
+  .room-header
     position: relative
-    overflow: hidden
-    color: $color-white
-    background: $color-background-ss
-    border-bottom: 1px solid $color-orange
+    display: flex
+    flex-direction: column
+    justify-content: center
+    height: 60px
+    top: 0
+    width: 100%
+    z-index: 9
+    box-shadow: 0 2px 6px rgba(0,0,0,.2)
     .content-wrapper
-      position: relative
       display: flex
       align-items: center
-      padding: 24px 12px 18px 24px
+      justify-content: space-between
+      font-size: $fontsize-large-xx
+      padding-right: 20px
+      padding-left: 20px
+      height: 45px
+      .left
+        width: 32px
+      .middle
+        color: $color-orange
+      .my-icon
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        color: $color-orange
+        font-size: 10px
+      .my-icon-right
+        margin-bottom: 5px
+        .rid
+          width: 32px
+          height: 13px
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          text-align: center
       .to-login
         color: $color-orange
-    .intro
-      position: absolute
-      right: 5px
-      top: 42px
-      font-size: $fontsize-small
+        margin-right: 10px
 </style>
 

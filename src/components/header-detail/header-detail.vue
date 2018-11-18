@@ -6,26 +6,28 @@
           <h1 class="name">{{seller.name}}</h1>
           <div class="title">
             <div class="line"></div>
+            <div class="text">地址</div>
+            <div class="line"></div>
+          </div>
+          <div class="bulletin">
+            <p class="content">{{seller.description}}</p>
+          </div>
+          <div class="title">
+            <div class="line"></div>
             <div class="text">房间号</div>
             <div class="line"></div>
           </div>
           <div class="bulletin">
             <p class="content rid">{{rid}}</p>
           </div>
-          <!-- <div class="star-wrapper">
-            <star :size="48" :score="seller.score"></star>
-          </div> -->
-          <!-- <div class="title">
+          <div class="title">
             <div class="line"></div>
-            <div class="text">优惠信息</div>
+            <div class="text">服务员工号</div>
             <div class="line"></div>
-          </div> -->
-          <!-- <ul v-if="seller.supports" class="supports">
-            <li class="support-item" v-for="(item,index) in seller.supports" :key="item.id">
-              <support-ico :size=2 :type="seller.supports[index].type"></support-ico>
-              <span class="text">{{seller.supports[index].description}}</span>
-            </li>
-          </ul> -->
+          </div>
+          <div class="bulletin">
+            <p class="content rid">{{sid}}</p>
+          </div>
           <div class="title">
             <div class="line"></div>
             <div class="text">商家公告</div>
@@ -37,7 +39,7 @@
         </div>
       </div>
       <div class="detail-close" @click="hide">
-        <span>X</span>
+        <span>✖</span>
       </div>
     </div>
   </transition>
@@ -63,6 +65,12 @@
         default() {
           return '101'
         }
+      },
+      sid: {
+        stype: String,
+        default() {
+          return '028'
+        }
       }
     },
     data() {
@@ -71,12 +79,6 @@
       }
     },
     methods: {
-      // show() {
-      //   this.visible = true
-      // },
-      // hide() {
-      //   this.visible = false
-      // }
     },
     components: {
       SupportIco,
@@ -111,7 +113,7 @@
       width: 100%
       min-height: 100%
       .detail-main
-        margin-top: 164px
+        margin-top: 64px
         padding-bottom: 64px
         .name
           line-height: 16px

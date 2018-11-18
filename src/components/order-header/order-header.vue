@@ -15,6 +15,10 @@
           房间号：
           <span class="rid">{{rid}}</span>
         </div>
+        <div class="description">
+          服务员工号：
+          <span class="rid">{{sid}}</span>
+        </div>
       </div>
     </div>
     <div class="bulletin-wrapper">
@@ -44,6 +48,12 @@
         default() {
           return "101"
         }
+      },
+      sid: {
+        type: String,
+        default() {
+          return '028'
+        }
       }
     },
     methods: {
@@ -51,7 +61,8 @@
         this.headerDetailComp = this.headerDetailComp || this.$createHeaderDetail({
           $props: {
             seller: 'seller',
-            rid: 'rid'
+            rid: 'rid',
+            sid: 'sid'
           }
         })
         this.headerDetailComp.show()
@@ -88,7 +99,7 @@
         .title
           display: flex
           align-items: center
-          margin-bottom: 8px
+          margin-bottom: 4px
           .brand
             width: 30px
             height: 18px
@@ -97,6 +108,7 @@
             background-repeat: no-repeat
         .description-local
           font-size: $fontsize-small-s
+          margin-bottom: 8px
         .description
           margin: 4px 0
           line-height: 12px

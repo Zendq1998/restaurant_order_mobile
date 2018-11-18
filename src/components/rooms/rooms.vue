@@ -1,6 +1,6 @@
 <template>
   <div class="tab-wrapper">
-    <room-header></room-header>
+    <room-header @logout="logout" :logged="logged" :sid="sid"></room-header>
     <div class="tab">
       <div class="slide-wrapper">
         <div class="goods">
@@ -33,10 +33,11 @@
                       <div 
                         v-if="room.status==1" 
                         class="logo-item logo-item-locked"
+                        @click="cantClickRoom"
                       >
                         <Lock />
                       </div>
-                      <span class="room-id">
+                      <span class="room-id" :class="`room-id-${room.status}`">
                         {{room.rid}}
                       </span>
                     </div>
@@ -57,14 +58,22 @@ import { getRooms } from 'api'
 import Dinner from '../../common/icon/dinner.svg'
 import Lock from '../../common/icon/lock.svg'
 import RoomHeader from 'components/room-header/room-header'
+import { getCookie, deletCookie } from '../../cookie'
+
 export default {
   name: 'rooms',
   data() {
     return {
-      rooms: []
+      rooms: [],
+      logged: false,
+      sid: ''
     }
   },
   created() {
+    if (getCookie('logged_in') === 'yes') {
+      this.logged = true
+      this.sid = getCookie('sid')
+    }
     this._getRooms()
   },
   methods: {
@@ -77,8 +86,31 @@ export default {
           this.rooms = rooms
         })
     },
+    cantClickRoom() {
+      this.$createDialog({
+        title: `该房间未开启～`
+      }).show()
+    },
     toOrder(rid) {
-      window.location = `/order/${rid}`
+      if (this.sid) {
+        window.location = `/order/${this.sid}/${rid}`
+      }
+      else {
+        this.$createDialog({
+          type: 'confirm',
+          content: `订餐需要服务员权限，确认登录？`,
+          $events: {
+            confirm: () => {
+              window.location = `/login`
+            }
+          }
+        }).show()
+      }
+    },
+    logout() {
+      deletCookie('sid')
+      deletCookie('logged_in')
+      location.reload()
     }
   },
   components: {
@@ -121,7 +153,7 @@ export default {
             background: $color-white
             width: 100%
           >>> .cube-scroll-nav-bar
-            width: 50px
+            width: 80px
             white-space: normal
             overflow: hidden
           >>> .cube-scroll-nav-bar-item
@@ -133,6 +165,7 @@ export default {
             line-height: 14px
             font-size: $fontsize-small
             background: $color-white
+            border-bottom: 1px solid $color-col-line
           >>> .cube-scroll-nav-bar-item_active
             background: $color-orange
             color: $color-white
@@ -145,13 +178,15 @@ export default {
             border-left: 2px solid $color-col-line
             font-size: $fontsize-small
             color: $color-orange
-            background: $color-background-ssss
+            background: $color-white
           .floor
             display: flex
             flex-direction: row
             flex-wrap: wrap
             padding-bottom: 30px
             padding-top: 30px
+            justify-content: space-between
+            background: $color-background-ssss
             .room-item
               display: flex
               margin: 18px
@@ -162,9 +197,9 @@ export default {
                 flex-direction: column
                 justify-content: center
                 .logo-item
-                  width: 62px
-                  height: 62px
-                  line-height: 70px
+                  width: 50px
+                  height: 50px
+                  line-height: 57px
                   text-align: center
                   border-radius: 100%
                   background: $color-green
@@ -175,6 +210,10 @@ export default {
                 .room-id
                   text-align: center
                   margin-top: 10px
+                .room-id-1
+                  color: $color-red
+                .room-id-0
+                  color: $color-green
             
 </style>
 
