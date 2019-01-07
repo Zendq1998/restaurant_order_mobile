@@ -62,5 +62,8 @@ module.exports = {
     svgRule
       .use('vue-svg-loader')
       .loader('vue-svg-loader')
-  }
+  },
+  baseUrl: process.env.NODE_ENV === 'production'
+  ? '/production-sub-path/'
+  : '/front'
 }
