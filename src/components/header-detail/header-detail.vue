@@ -46,8 +46,6 @@
 </template>
 
 <script>
-  import Star from 'components/star/star'
-  import SupportIco from 'components/support-ico/support-ico'
   import popupMixin from 'common/mixins/popup'
   import Cha from 'common/icon/cha.svg'
 
@@ -82,8 +80,6 @@
     methods: {
     },
     components: {
-      SupportIco,
-      Star,
       Cha
     }
   }
@@ -122,10 +118,6 @@
           text-align: center
           font-size: $fontsize-large
           font-weight: 700
-        .star-wrapper
-          margin-top: 18px
-          padding: 2px 0
-          text-align: center
         .title
           display: flex
           width: 80%
@@ -150,8 +142,6 @@
             margin-bottom: 12px
             &:last-child
               margin-bottom: 0
-            .support-ico
-              margin-right: 6px
             .text
               line-height: 16px
               font-size: $fontsize-small

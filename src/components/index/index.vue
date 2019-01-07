@@ -10,7 +10,8 @@
   import OrderHeader from 'components/order-header/order-header'
   import Order from 'components/order/order'
   import GoBack from 'components/go-back/go-back'
-  import { getSeller } from 'api'
+  // import { getSeller } from 'api'
+  import Seller from '../../../seller.json'
 
   export default {
     name: 'app',
@@ -25,16 +26,17 @@
     },
     created() {
       this._getSeller()
-      this.rid = this.$route.params.id + ''
+      this.rid = this.$route.params.rid + ''
       this.sid = this.$route.params.sid + ''
     },
     methods: {
       _getSeller() {
-        getSeller()
-          .then((seller) => {
-            this.seller = seller
-          })
-      },
+        this.seller = Seller.seller
+        // getSeller()
+        //   .then((seller) => {
+        //     this.seller = seller
+        //   })
+      }
     },
     components: {
       Order,

@@ -3,15 +3,23 @@
     <go-back></go-back>
     <div class="forms">
       <img class="img-logo" :src="logo[0]" alt="">
-      <cube-input class="input input-id" v-model="sid" placeholder='请输入工号' type="number" :autofocus="true" ></cube-input>
+      <cube-input class="input input-id" v-model="sid" placeholder='请输入工号' type="text" :autofocus="true" ></cube-input>
       <cube-input class="input" v-model="pw" placeholder='请输入密码' type='password' :eye="eye"></cube-input>
-      <cube-button class="bt" @click="showToastTime"  :primary="primary" :disabled="!(sid.length && pw.length)">登录</cube-button>
+      <cube-button class="bt" @click="login"  :primary="primary" :disabled="!(sid.length && pw.length)">登录</cube-button>
     </div>
   </div>
 </template>
 
 <script>
 import goBack from '../go-back/go-back'
+import gql from 'graphql-tag'
+
+const USERLOGIN = gql`query login($name: String!, $psw: String!){
+  user {
+    token(user: {username: $name, password: $psw})
+  }
+}`
+
 export default {
   name: 'login',
   data() {
@@ -29,18 +37,55 @@ export default {
     }
   },
   methods: {
+    login() {
+      const LoginToast = this.$createToast({
+        time: 0,
+        txt: '登录中...'
+      })
+      LoginToast.show()
+      this.$apollo.query({
+        query: USERLOGIN,
+        variables: {
+          name: this.sid,
+          psw: this.pw
+        }
+      })
+        .then(res => {
+          LoginToast.hide()
+          if (res.data.user.token) {
+            localStorage.setItem('token', res.data.user.token)
+            localStorage.setItem('logged_in', 'yes')
+            localStorage.setItem('user_name', this.sid)
+            console.log(localStorage.getItem('token'))
+            this.$router.push({ path: '/' })
+          } else {
+            const ErrToast = this.$createToast({
+              time: 1000,
+              txt: '用户名或密码错误',
+              type: 'error',
+              onTimeout: () => {
+                this.pw = ''
+              }
+            })
+            ErrToast.show()
+          }
+        })
+        .catch(err => {
+          LoginToast.hide()
+        })
+    },
     showToastTime() {
       const toast = this.$createToast({
         time: 500,
         txt: '登录中...',
         onTimeout: () => {
-          document.cookie="logged_in=yes"
-          document.cookie=`sid=${this.sid}`
-          window.location = '../'
+          document.cookie = 'logged_in=yes'
+          document.cookie = `sid=${this.sid}`
+          this.$router.push({ path: '/' })
         }
       })
       toast.show()
-    },
+    }
   },
   components: {
     goBack
@@ -64,7 +109,7 @@ export default {
       .forms
         padding-top: 100px;
         width: 300px
-        .img-logo 
+        .img-logo
           margin: 0 auto 12px
           display: block
         .input
@@ -78,8 +123,4 @@ export default {
           color: $color-white
           background: #ccc
 
-
-
 </style>
-
-

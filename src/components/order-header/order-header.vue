@@ -32,7 +32,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import SupportIco from 'components/support-ico/support-ico'
 
   export default {
     name: 'order-header',
@@ -46,7 +45,7 @@
       rid: {
         type: String,
         default() {
-          return "101"
+          return '101'
         }
       },
       sid: {
@@ -69,7 +68,6 @@
       }
     },
     components: {
-      SupportIco
     }
   }
 </script>
@@ -100,12 +98,6 @@
           display: flex
           align-items: center
           margin-bottom: 4px
-          .brand
-            width: 30px
-            height: 18px
-            bg-image('brand')
-            background-size: 30px 18px
-            background-repeat: no-repeat
         .description-local
           font-size: $fontsize-small-s
           margin-bottom: 8px
@@ -118,8 +110,6 @@
         .support
           display: flex
           align-items: center
-          .support-ico
-            margin-right: 4px
           .text
             line-height: 12px
             font-size: $fontsize-small-s

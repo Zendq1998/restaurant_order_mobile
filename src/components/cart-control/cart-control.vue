@@ -17,9 +17,9 @@
 </template>
 
 <script>
-const EVENT_ADD = 'add'
 import Plus from '../../common/icon/plus.svg'
 import Minus from '../../common/icon/minus.svg'
+const EVENT_ADD = 'add'
 export default {
   name: 'cart-control',
   props: {
@@ -31,8 +31,7 @@ export default {
     add(event) {
       if (!this.food.count) {
         this.$set(this.food, 'count', 1)
-      }
-      else {
+      } else {
         this.food.count += 1
       }
       this.$emit(EVENT_ADD, event.target)

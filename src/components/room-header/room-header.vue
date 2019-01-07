@@ -14,10 +14,9 @@
       <div @click="toLogin" class="right">
         <div class="my-icon">
           <Server class="my-icon-right" />
-          <div class="rid">{{logged ? `ID:${sid}` : 'Login'}}</div>
+          <div class="rid">{{logged ? `server:${sid}` : 'Login'}}</div>
         </div>
       </div>
-      
     </div>
   </div>
 </template>
@@ -48,12 +47,9 @@ export default {
     }
   },
   methods: {
-    test() {
-      window.location = '/login'
-    },
     toLogin() {
       if (!this.logged) {
-        window.location = '/login'
+        this.$router.push({ path: '/login' })
       }
     },
     logout() {
@@ -113,4 +109,3 @@ export default {
         color: $color-orange
         margin-right: 10px
 </style>
-

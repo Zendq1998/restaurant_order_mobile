@@ -39,8 +39,8 @@
 
 <script>
   import Bubble from 'components/bubble/bubble'
-
-  import ShopCartLogo from '../../common/icon/shopcart.svg' 
+  import ShopCartLogo from '../../common/icon/shopcart.svg'
+  import { createOrder } from '../../graphqlClient.js'
 
   const BALL_LEN = 10
   const innerClsHook = 'inner-hook'
@@ -48,7 +48,7 @@
   function createBalls() {
     let balls = []
     for (let i = 0; i < BALL_LEN; i++) {
-      balls.push({show: false})
+      balls.push({ show: false })
     }
     return balls
   }
@@ -143,14 +143,28 @@
           content: `您的订单共计${this.totalPrice}元，确认下单？`,
           $events: {
             confirm: () => {
-              this.selectFoods.forEach((food) => {
-                food.count = 0
-              })
-              this.$createDialog({
-                title: `${this.rid}房间下单成功！`,
-                content: '菜品会尽快为您送达，祝您用餐愉快！'
-              }).show()
-              e.stopPropagation()
+              // createOrder()
+              const orderList = this.selectFoods.map(item => ({count: item.count, id: item.id}))
+              // console.log(orderList)
+              createOrder(orderList, this.rid)
+                .then(res => {
+                  console.log(res)
+                  if (res.order && res.order.createOrder) {
+                    this.$createDialog({
+                      title: `${this.rid}号房间下单成功！`,
+                      content: '菜品会尽快为您送达，祝您用餐愉快！'
+                    }).show()
+                    this.selectFoods.forEach((food) => {
+                      food.count = 0
+                    })
+                    e.stopPropagation()
+                  } else {
+                    this.$createDialog({
+                      title: '下单失败！',
+                      content: '下单失败，请联系管理员'
+                    }).show()
+                  }
+                })
             }
           }
         }).show()

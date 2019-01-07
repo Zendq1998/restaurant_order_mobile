@@ -8,7 +8,7 @@ import Login from 'components/login/login'
 Vue.use(VueRouter)
 
 export default new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     {
       name: 'rooms',
@@ -20,19 +20,11 @@ export default new VueRouter({
       path: '/login',
       component: Login
     },
-    // {
-    //   name: 'order',
-    //   path: '/order',
-    //   component: Order
-    // },
     {
       name: 'index',
-      path: '/order/:sid/:id',
+      path: '/order/:rid/:sid',
       component: Index
     },
-    {
-      path: '/',
-      redirect: '/rooms'
-    }
+    { path: '/', redirect: { name: 'rooms' } }
   ]
 })

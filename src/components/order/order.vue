@@ -4,7 +4,7 @@
       <div class="slide-wrapper">
         <div class="goods">
           <div class="scroll-nav-wrapper">
-            <cube-scroll-nav 
+            <cube-scroll-nav
               :side=true
               :data="goods"
               v-if="goods.length"
@@ -43,12 +43,7 @@
                     </div>
                     <div class="content">
                       <h2 class="name">{{food.name}}</h2>
-                      <p class="desc">{{food.description}}</p>
-                      <div class="extra">
-                        <span class="count">
-                          月售{{food.sellCount}}份
-                        </span>
-                      </div>
+                      <!-- <p class="desc">{{food.description}}</p> -->
                       <div class="price">
                         <span class="now">
                           ¥{{food.price}}
@@ -79,19 +74,21 @@
       </div>
   </div>
   </div>
-  
+
 </template>
 
 <script>
-import { getGoods } from "api";
-import OrderHeader from "components/order-header/order-header"
-import ShopCart from "../shop-cart/shop-cart";
-import CartControl from "../cart-control/cart-control";
-import SupportIco from "components/support-ico/support-ico";
-import Bubble from "components/bubble/bubble";
+import Goods from '../../../goods.json'
+import OrderHeader from 'components/order-header/order-header'
+import ShopCart from '../shop-cart/shop-cart'
+import CartControl from '../cart-control/cart-control'
+import Bubble from 'components/bubble/bubble'
+import gql from 'graphql-tag'
+// import { GraphQLClient } from 'graphql-request'
+import { getGoods } from '../../graphqlClient.js'
 
 export default {
-  name: "order",
+  name: 'order',
   props: {
     rid: {
       type: String,
@@ -107,10 +104,10 @@ export default {
         // click: false,
         // directionLockThreshold: 0
       }
-    };
+    }
   },
   created() {
-    this._getGoods();
+    this._getGoods()
   },
   computed: {
     seller() {
@@ -146,22 +143,46 @@ export default {
   },
   methods: {
     _getGoods() {
-      getGoods().then(goods => {
-        this.goods = goods;
-      });
+      if (localStorage.getItem('goodsList')) {
+        this.goods = JSON.parse(localStorage.getItem('goodsList'))
+        return
+      }
+      getGoods()
+        .then(res => {
+          if (res.food && res.food.categories && res.food.foods) {
+            const foods = res.food.foods
+            let categories = res.food.categories.filter(one_class => foods.some(food => food.categoryId === one_class.id))
+            foods.forEach(food => {
+              let categoriesIndex = categories.find(one_class => one_class.id === food.categoryId)
+              if (categoriesIndex.foods == null) {
+                categoriesIndex.foods = []
+              }
+              categoriesIndex.foods.push({
+                id: food.id,
+                name: food.name,
+                image: food.image,
+                icon: food.image,
+                price: new Number(food.unitPrice).toFixed(2)
+              })
+            })
+            this.goods = categories
+            localStorage.setItem('goodsList', JSON.stringify(categories))
+          } else {
+            this.goods = Goods.goods
+          }
+        })
     },
     onAdd(el) {
-      this.$refs.shopCart.drop(el);
+      this.$refs.shopCart.drop(el)
     }
   },
   components: {
     Bubble,
-    // SupportIco,
     CartControl,
     ShopCart,
     OrderHeader
   }
-};
+}
 </script>
 
 <style lang="stylus" scoped>
@@ -210,10 +231,6 @@ export default {
               position: absolute
               right: -8px
               top: -10px
-            .support-ico
-              display: inline-block
-              vertical-align: top
-              margin-right: 4px
           >>> .cube-scroll-nav-bar-item_active
             background: $color-white
             color: $color-dark-orange
@@ -243,9 +260,13 @@ export default {
               .name
                 margin: 2px 0 8px 0
                 height: 14px
+                width: 170px
                 line-height: 14px
                 font-size: $fontsize-medium
                 color: $color-dark-grey
+                overflow: hidden
+                text-overflow: ellipsis
+                white-space: nowrap
               .desc, .extra
                 line-height: 10px
                 font-size: $fontsize-small-s
@@ -279,4 +300,3 @@ export default {
             width: 100%
             height: 48px
 </style>
-
